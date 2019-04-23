@@ -1,20 +1,52 @@
 import delegator
 
+DELEGATOR_MINIMUM_TIMEOUT = 60 * 60 * 60 * 8
 
-class Bash:
-    def __init__(self, *, verbose=True, interactive=False, path="bash", environ=None):
-        self.interactive = interactive
-        self.verbose = verbose
-        self.path = path
-        self.environ = environ or {}
+# Monkey-patch delegator (hack):
+if delegator.TIMEOUT < DELEGATOR_MINIMUM_TIMEOUT:
+    delegator.TIMEOUT = DELEGATOR_MINIMUM_TIMEOUT
+
+__all__ = ["Bash", "run"]
+
+
+class BashProcess:
+    def __init__(self, args, parent, blocking=True):
+        # Environ inherents from parent.
+
+        # Remember passed-in arguments.
+        self.parent = parent
+        self.args = args
+
+        # Run the subprocess.
+        self.sub = delegator.run(
+            (self.parent.path,) + args, env=self.parent.environ, block=blocking
+        )
 
     @property
-    def about(self):
-        """Returns the about page of the Bash-interpreter."""
-        sub = self._exec("--version")
-        if not sub.ok:
+    def output(self):
+        return str(self.sub.out)
+
+    @property
+    def ok(self):
+        return self.sub.ok
+
+    def __repr__(self):
+        return (
+            f"<BashProcess pid={self.sub.pid!r} return_code={self.sub.return_code!r}>"
+        )
+
+
+class Bash:
+    def __init__(self, *, verbose=True, path="bash", environ=None, interactive=False):
+        self.verbose = verbose
+        self.path = path
+        self.interactive = interactive
+        self.environ = environ.copy() if environ else {}
+
+        ver_proc = self._exec("--version")
+        if not ver_proc.ok:
             raise RuntimeError("bash is required.")
-        return str(sub.out)
+        self.about = ver_proc.output
 
     @property
     def version(self):
@@ -31,23 +63,21 @@ class Bash:
     @property
     def _flags(self):
         interactive = ["-i"] if self.interactive else []
-        command = ["-c"]
+        commands = ["-c"]
 
-        return interactive + command
+        return interactive + commands
 
     def _exec(self, *args):
-        return delegator.run((self.path,) + args)
+        return BashProcess(parent=self, args=args)
+
+    def command(self, script):
+        return self._exec(*self._flags, script)
 
 
-class BashScript:
-    def __init__(self):
-        self._contents = ""
+def run(script=None, **kwargs):
+    """Runs the given bash script."""
+    # Run the script.
+    return Bash(**kwargs).command(script)
 
 
-def run(script=None, path_to_script=None):
-    if not (script or path_to_script):
-        raise RuntimeError
-
-
-b = Bash()
-print(b.version)
+print(run("uptime"))
