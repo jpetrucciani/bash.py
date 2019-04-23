@@ -80,6 +80,3 @@ def run(script=None, **kwargs):
     """Runs the given bash script."""
     # Run the script.
     return Bash(**kwargs).command(script)
-
-
-print(repr(run("echo $(uptime)").output))
