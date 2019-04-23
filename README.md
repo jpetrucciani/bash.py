@@ -11,3 +11,8 @@
 
 >>> _.output
 'hi\n'
+
+### Installation
+
+```shell
+$ pipenv install bash.py
