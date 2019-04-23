@@ -16,3 +16,4 @@
 
 ```shell
 $ pipenv install bash.py
+```
