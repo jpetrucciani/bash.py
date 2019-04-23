@@ -11,6 +11,7 @@
 
 >>> _.output
 'hi\n'
+```
 
 ### Installation
 
