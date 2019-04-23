@@ -1,6 +1,10 @@
+import os
+from shlex import quote as shlex_quote
+
 import delegator
 
 DELEGATOR_MINIMUM_TIMEOUT = 60 * 60 * 60 * 8
+WHICH_BASH = "bash"
 
 # Monkey-patch delegator (hack):
 if delegator.TIMEOUT < DELEGATOR_MINIMUM_TIMEOUT:
@@ -18,8 +22,9 @@ class BashProcess:
         self.args = args
 
         # Run the subprocess.
+        args = " ".join(args)
         self.sub = delegator.run(
-            (self.parent.path,) + args, env=self.parent.environ, block=blocking
+            f"{self.parent.path} {args}", env=self.parent.environ, block=blocking
         )
 
     @property
@@ -40,11 +45,10 @@ class BashProcess:
 
 
 class Bash:
-    def __init__(self, *, verbose=True, path="bash", environ=None, interactive=False):
-        self.verbose = verbose
+    def __init__(self, *, path=WHICH_BASH, environ=None, interactive=False):
         self.path = path
         self.interactive = interactive
-        self.environ = environ.copy() if environ else {}
+        self.environ = environ or {}
 
         ver_proc = self._exec("--version")
         if not ver_proc.ok:
@@ -63,18 +67,13 @@ class Bash:
             if word == "version":
                 select_next = True
 
-    @property
-    def _flags(self):
-        interactive = ["-i"] if self.interactive else []
-        commands = ["-c"]
-
-        return interactive + commands
-
     def _exec(self, *args):
+        print(args)
         return BashProcess(parent=self, args=args)
 
     def command(self, script):
-        return self._exec(*self._flags, script)
+
+        return self._exec(f"-c {shlex_quote(script)}")
 
 
 def run(script=None, **kwargs):
