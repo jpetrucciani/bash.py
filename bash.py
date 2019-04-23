@@ -6,7 +6,7 @@ DELEGATOR_MINIMUM_TIMEOUT = 60 * 60 * 60 * 8
 if delegator.TIMEOUT < DELEGATOR_MINIMUM_TIMEOUT:
     delegator.TIMEOUT = DELEGATOR_MINIMUM_TIMEOUT
 
-__all__ = ["Bash", "run"]
+__all__ = ["run", "Bash"]
 
 
 class BashProcess:
@@ -29,6 +29,9 @@ class BashProcess:
     @property
     def ok(self):
         return self.sub.ok
+
+    def return_code(self):
+        return self.sub.return_code
 
     def __repr__(self):
         return (
@@ -80,4 +83,4 @@ def run(script=None, **kwargs):
     return Bash(**kwargs).command(script)
 
 
-print(run("uptime"))
+print(repr(run("echo $(uptime)").output))

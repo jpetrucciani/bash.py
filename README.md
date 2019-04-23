@@ -5,4 +5,9 @@
 
 ```pycon
 >>> import bash
+
 >>> bash.run("echo hi")
+<BashProcess pid=24108 return_code=0>
+
+>>> _.output
+'hi\n'

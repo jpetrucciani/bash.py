@@ -18,7 +18,7 @@ URL = "https://github.com/kennethreitz/bash.py"
 EMAIL = "me@kennethreitz.org"
 AUTHOR = "Kenneth Reitz"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.0.1"
+VERSION = "0.1.0"
 
 # What packages are required for this module to be executed?
 REQUIRED = [
