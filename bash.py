@@ -68,7 +68,6 @@ class Bash:
                 select_next = True
 
     def _exec(self, *args):
-        print(args)
         return BashProcess(parent=self, args=args)
 
     def command(self, script):
