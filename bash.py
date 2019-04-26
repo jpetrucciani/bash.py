@@ -1,4 +1,5 @@
 import os
+import re
 from shlex import quote as shlex_quote
 
 import delegator
@@ -58,14 +59,10 @@ class Bash:
     @property
     def version(self):
         """Returns the version number of the Bash-interpreter."""
-        select_next = False
-        for word in self.about.split():
-            if select_next:
-                # return 4.4.19(1)-release
-                return word
-            # GNU Bash, version 4.4.19(1)-release
-            if word == "version":
-                select_next = True
+        m = re.search(r"\bversion\s+(.+)\b", self.about)
+        # ...GNU Bash, version 4.4.19(1)-release ... --> 4.4.19(1)-release
+        if m:
+            return m.group(1)
 
     def _exec(self, *args):
         return BashProcess(parent=self, args=args)
