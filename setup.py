@@ -18,7 +18,7 @@ URL = "https://github.com/kennethreitz/bash.py"
 EMAIL = "me@kennethreitz.org"
 AUTHOR = "Kenneth Reitz"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.2.1"
+VERSION = "0.3.0"
 
 # What packages are required for this module to be executed?
 REQUIRED = [
@@ -99,9 +99,9 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
+    # packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     # If your package is a single module, use this instead of 'packages':
-    # py_modules=['mypackage'],
+    py_modules=["bash"],
     # entry_points={
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
