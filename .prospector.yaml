@@ -1,0 +1,69 @@
+strictness: veryhigh
+doc-warnings: true
+member-warnings: false
+test-warnings: false
+
+ignore-patterns:
+  - (^|/)\..+
+
+pylint:
+  disable:
+    - anomalous-backslash-in-string
+    - import-error
+    - broad-except
+    - protected-access
+    - unsupported-membership-test
+    - wrong-import-order
+
+  options:
+    max-args: 14
+    max-locals: 100
+    max-returns: 10
+    max-branches: 30
+    max-statements: 180
+    max-parents: 10
+    max-attributes: 12
+    min-public-methods: 0
+    max-public-methods: 20
+    max-module-lines: 2000
+    max-line-length: 100
+
+mccabe:
+  options:
+    max-complexity: 22
+
+pep8:
+  disable:
+    - N802
+    - N807
+    - W503
+  options:
+    max-line-length: 100
+    single-line-if-stmt: n
+
+vulture:
+  run: false
+
+pyroma:
+  run: false
+  disable:
+    - PYR19
+    - PYR16
+
+pep257:
+  disable:
+    - D000
+    - D100
+    - D104
+    - D107
+    - D200
+    - D202
+    - D203
+    - D205
+    - D212
+    - D204
+    - D300
+    - D400
+    - D401
+    - D404
+    - D403

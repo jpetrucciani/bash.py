@@ -21,12 +21,14 @@ def environ():
 
 
 def test_run(run):
+    """test that we can run a command"""
     c = run("echo hi")
     assert c.ok
     assert "hi" in c.output
 
 
 def test_environ(environ):
+    """test that our environment """
     from bash import Bash
 
     bash = Bash(environ=environ)
