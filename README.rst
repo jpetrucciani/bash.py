@@ -33,8 +33,12 @@ Example Usage
    >>> bash.run("echo hi")
    <BashProcess pid=24108 return_code=0>
 
-   >>> _.output
+   >>> proc = _
+   >>> proc.output
    'hi\n'
+
+   >>> proc.return_code
+   0
 
 Installation
 ~~~~~~~~~~~~
