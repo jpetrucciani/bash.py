@@ -21,7 +21,7 @@ URL = "https://github.com/jpetrucciani/bash.py"
 EMAIL = "jacobi@mimirhq.com"
 AUTHOR = "Kenneth Reitz, Jacobi Petrucciani"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.4.1"
+VERSION = "0.4.2"
 
 # What packages are required for this module to be executed?
 REQUIRED = ["delegator.py"]
@@ -101,7 +101,7 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    module='bash',
+    py_modules=['bash'],
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
