@@ -21,7 +21,7 @@ URL = "https://github.com/jpetrucciani/bash.py"
 EMAIL = "jacobi@mimirhq.com"
 AUTHOR = "Kenneth Reitz, Jacobi Petrucciani"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.4.0"
+VERSION = "0.4.1"
 
 # What packages are required for this module to be executed?
 REQUIRED = ["delegator.py"]
@@ -39,7 +39,9 @@ CURRENT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
 try:
-    with io.open(os.path.join(CURRENT_DIRECTORY, "README.md"), encoding="utf-8") as f:
+    with io.open(
+        os.path.join(CURRENT_DIRECTORY, "README.md"), encoding="utf-8"
+    ) as f:
         LONG_DESCRIPTION = "\n" + f.read()
 except FileNotFoundError:
     LONG_DESCRIPTION = DESCRIPTION
@@ -74,7 +76,9 @@ class UploadCommand(Command):
             pass
 
         self.status("Building Source and Wheel (universal) distribution…")
-        os.system("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
+        os.system(
+            "{0} setup.py sdist bdist_wheel --universal".format(sys.executable)
+        )
 
         self.status("Uploading the package to PyPI via Twine…")
         os.system("twine upload dist/*")
@@ -97,7 +101,7 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
+    module='bash',
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
