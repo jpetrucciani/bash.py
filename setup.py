@@ -24,7 +24,7 @@ REQUIRES_PYTHON = ">=3.6.0"
 VERSION = "0.4.1"
 
 # What packages are required for this module to be executed?
-REQUIRED = ["delegator.py"]
+REQUIRED = ['delegator.py']
 
 # What packages are optional?
 EXTRAS = {}  # type: ignore
